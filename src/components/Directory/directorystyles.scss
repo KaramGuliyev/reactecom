@@ -14,7 +14,6 @@
             background-position: center ;
             background-repeat: no-repeat;
             background-size: cover;
-
             &::after {
                 content: '';
                 position: absolute;
@@ -39,6 +38,7 @@
                 background: white;
                 padding: 8px 10px;
                 border: 1px solid black;
+                text-align: center;
             }
         }
     }
