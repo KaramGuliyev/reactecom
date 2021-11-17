@@ -1,4 +1,3 @@
-import react from "react";
 import SignIn from "../../components/SignIN/signin";
 import './loginstyles.scss'
 
