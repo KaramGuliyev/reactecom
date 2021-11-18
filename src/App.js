@@ -1,14 +1,17 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
-import "./default.scss"
-import Homepage from './pages/Homepage/homepage';
-import Registration from './pages/Registration/register';
 import { auth, handleUserProfile } from './firebase/utils';
+import { Component } from 'react';
+import "./default.scss"
 
 //Layouts
 import MainLayout from './layouts/MainLayout';
 import HomepageLayout from './layouts/HomepageLayout';
+
+// Pages
+import Homepage from './pages/Homepage/homepage';
 import Login from './pages/Login/login';
-import { Component } from 'react';
+import Recovery from './pages/Recovery/recovery';
+import Registration from './pages/Registration/register';
 
 const initialState = {
   currentUser: null
@@ -72,7 +75,12 @@ class App extends Component {
                 <MainLayout currentUser={currentUser}>
                   <Login />
                 </MainLayout>
-            )} />        
+            )} /> 
+            <Route path="/recovery" render={()=>(
+              <MainLayout>
+                <Recovery />
+              </MainLayout>
+            )} />       
           </Switch>
         </div>
       </div>

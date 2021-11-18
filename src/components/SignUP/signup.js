@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import './signupstyles.scss';
 import { auth, handleUserProfile } from "../../firebase/utils";
+
+//Components
 import FormInput from "../forms/FormInput/forminput";
 import Button from "../forms/Buttons/Buttons";
+import AuthWrapper from '../AuthWrapper/authwrapper';
 
 const initalState = {
     displayName: '',
@@ -60,22 +63,24 @@ class Signup extends Component {
 
         const {displayName, email, password, confirmPassword, errors} = this.state;
 
+        const configAuthWrapper = {
+            headline: 'registration'
+        };
         return (
-            <div className="signup">
-                <div className="wrap">
-                    <h2>signup</h2>
-                    {errors.length > 0 && (
-                        <ul>
-                            {errors.map((err, index) => {
-                                return (
-                                    <li key={index}>
-                                        {err}
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    )}
+                <AuthWrapper {...configAuthWrapper}>
                     <div className="formWrap">
+                        {errors.length > 0 && (
+                            <ul>
+                                {errors.map((err, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {err}
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        )}
+                        
                         <form onSubmit={this.handleFormSubmit}>
                             <FormInput
                                 type="text"
@@ -111,8 +116,7 @@ class Signup extends Component {
                                 <Button type="submit" >Register</Button>
                         </form>
                     </div>
-                </div>
-            </div>
+                </AuthWrapper>        
         );
     }
 }
