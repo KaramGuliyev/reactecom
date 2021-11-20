@@ -20,6 +20,9 @@ import { auth } from "../../firebase/utils";
 
                      {currentUser && (
                          <ul>
+                             <li>
+                                <Link to="/dashboard">My Account</Link>
+                            </li>
                             <li>
                                 <span onClick = { ()=> auth.signOut()}>
                                     Log Out
