@@ -4,14 +4,19 @@ import { useEffect } from 'react';
 import "./default.scss"
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentUser } from './redux/User/user.actions';
+
+//Components
+import AdminToolbar from './components/AdminToolbar/admintoolbar';
+
 //High Ordered Components
 import WithAuth from './hoc/withAuth';
-
+import WithAdminAuth from './hoc/withAdminAuth';
 //Layouts
 import MainLayout from './layouts/MainLayout';
 import HomepageLayout from './layouts/HomepageLayout';
 
 // Pages
+import Admin from './pages/Admin/admin';
 import Homepage from './pages/Homepage/homepage';
 import Login from './pages/Login/login';
 import Recovery from './pages/Recovery/recovery';
@@ -46,6 +51,7 @@ const App = props => {
     return (
       <div className="App">
         <div className="main">
+          <AdminToolbar />
           <Switch>
             <Route exact path="/" render={() => (
               <HomepageLayout>
@@ -76,6 +82,14 @@ const App = props => {
                   <Dashboard />
                 </MainLayout>
               </WithAuth>
+            )} />
+            <Route path="/admin" 
+              render={()=> (
+              <WithAdminAuth>
+                <MainLayout>
+                  <Admin />
+                </MainLayout>
+              </WithAdminAuth>
             )} />       
           </Switch>
         </div>

@@ -1,0 +1,43 @@
+.adminToolbar {
+    display: inline-block;
+    width: 100%;
+    background-color: black;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 0px;
+    text-align: center;
+    word-spacing: 100px;
+
+    ul, li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        word-spacing: 100px;
+
+    }
+
+    ul {
+        
+        li {
+            display: inline-block;
+
+            a {
+                display: block;
+                font-size:  1.6rem;
+                line-height:  1;
+                color: blanchedalmond;
+                padding: 10px;
+                transition: all 0.4s ease-in-out;
+                word-spacing: 100px;
+
+
+                &:hover {
+                    font-size: 2rem;
+                    background-color: rgba(255, 255, 255 , 0.6);
+                    color: black;
+                    transition: all 0.4s ease-in-out;
+                }
+            }
+        }
+    }
+}
