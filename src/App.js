@@ -2,9 +2,8 @@ import { Route, Switch } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils';
 import { useEffect } from 'react';
 import "./default.scss"
-import {connect} from 'react-redux'
-import { setCurrentuser } from './redux/User/user.actions';
-
+import { useSelector, useDispatch } from 'react-redux'
+import { setCurrentUser } from './redux/User/user.actions';
 //High Ordered Components
 import WithAuth from './hoc/withAuth';
 
@@ -21,7 +20,7 @@ import Dashboard from './pages/Dashboard/dashboard';
 
 
 const App = props => {
-  const { setCurrentuser, currentUser } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
 
@@ -30,20 +29,19 @@ const App = props => {
       if (userAuth) {
         const userRef = await handleUserProfile(userAuth);
         userRef.onSnapshot(snapshot => {
-          setCurrentuser({
+          dispatch(setCurrentUser({
               id: snapshot.id,
               ...snapshot.data(),
-          });      
+          }));      
         })
       }
 
-      setCurrentuser(userAuth);
-
+      dispatch(setCurrentUser(userAuth));
     });
     return () => {
       authListener();
     }
-  }, [])
+  }, [setCurrentUser])
 
     return (
       <div className="App">
@@ -85,12 +83,4 @@ const App = props => {
     );
 }
 
-const mapStateToProps = ({user}) => ({
-  currentUser: user.currentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  setCurrentuser: user => dispatch(setCurrentuser(user))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
