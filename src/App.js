@@ -10,9 +10,12 @@ import AdminToolbar from './components/AdminToolbar/admintoolbar';
 //High Ordered Components
 import WithAuth from './hoc/withAuth';
 import WithAdminAuth from './hoc/withAdminAuth';
+
 //Layouts
 import MainLayout from './layouts/MainLayout';
 import HomepageLayout from './layouts/HomepageLayout';
+import AdminLayout from './layouts/AdminLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
 import Admin from './pages/Admin/admin';
@@ -60,17 +63,17 @@ const App = props => {
             )} />
             <Route path="/dashboard" render={()=> (
               <WithAuth>
-                <MainLayout>
+                <DashboardLayout>
                   <Dashboard />
-                </MainLayout>
+                </DashboardLayout>
               </WithAuth>
             )} />
             <Route path="/admin" 
               render={()=> (
               <WithAdminAuth>
-                <MainLayout>
+                <AdminLayout>
                   <Admin />
-                </MainLayout>
+                </AdminLayout>
               </WithAdminAuth>
             )} />       
           </Switch>

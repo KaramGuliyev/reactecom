@@ -3,7 +3,7 @@ import './dashboardstyles.scss'
 const Dashboard = props => {
     return (
         <h1>
-            Restricted Area!
+            Welcome to your account
         </h1>
     );
 };
