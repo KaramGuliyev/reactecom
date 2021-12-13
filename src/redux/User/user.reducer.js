@@ -1,5 +1,4 @@
 import userTypes from "./user.types";
-import { resetPasswordSuccess } from './user.actions';
 
 const INITIAL_STATE = {
     currentUser: null,

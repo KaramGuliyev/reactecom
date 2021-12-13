@@ -1,25 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './adminstyles.scss';
-
-import Modal from '../../components/Modals/modal';
-import FormInput from '../../components/forms/FormInput/forminput';
 import Button from '../../components/forms/Buttons/Buttons';
+import FormSelect from '../../components/forms/FormSelect/formselect';
+import FormInput from '../../components/forms/FormInput/forminput';
+import Modal from '../../components/Modals/modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProductStart, deleteProductStart, fetchProductsStart } from './../../redux/Products/products.actions';
+
+const mapState = ({ productsData }) => ({
+  products: productsData.products
+})
 
 const Admin = props => {
+  const { products } = useSelector(mapState) 
+  const dispatch = useDispatch();
   const [hideModal, setHideModal] = useState(true);
+  const [productCategory, setProductCategory] = useState('mens');
   const [productName, setProductName] = useState('');
-  const [ProductImageURL, setProductImageURL] = useState('');
+  const [productThumbnail, setProductThumbnail] = useState('');
   const [productPrice, setProductPrice] = useState(0);
 
-  const toggleModal = truthy => setHideModal(truthy);
+  useEffect(() => {
+    dispatch(
+      fetchProductsStart()
+    );
+
+  }, []);
+
+  const toggleModal = () => setHideModal(!hideModal);
 
   const configModal = {
     hideModal,
     toggleModal
   };
 
+  const resetForm = () => {
+    setHideModal(true);
+    setProductCategory('mens');
+    setProductName('');
+    setProductThumbnail ('');
+    setProductPrice(0);
+  }
+
   const handleSubmit = e => {
     e.preventDefault();
+    
+    dispatch (
+      addProductStart({
+        productCategory,
+        productName,
+        productThumbnail,
+        productPrice,
+      })
+    );
+    resetForm();
+
   };
 
   return (
@@ -28,7 +63,7 @@ const Admin = props => {
       <div className="callToActions">
         <ul>
           <li>
-            <Button onClick={() => toggleModal(false)}>
+            <Button onClick={() => toggleModal()}>
               Add new product
             </Button>
           </li>
@@ -39,37 +74,102 @@ const Admin = props => {
         <div className="addNewProductForm">
           <form onSubmit={handleSubmit}>
 
+            <h2>
+              Add new product
+            </h2>
+
+            <FormSelect
+              label="Category"
+              options={[{
+                value: "mens",
+                name: "Mens"
+              }, {
+                value: "womens",
+                name: "Womens"
+              }]}
+              handleChange={e => setProductCategory(e.target.value)}
+            />
+
             <FormInput
+              label="Name"
               type="text"
-              name="productName"
               value={productName}
-              placeholder="Product Name"
               handleChange={e => setProductName(e.target.value)}
             />
 
             <FormInput
+              label="Main image URL"
               type="url"
-              name="ProductImageURL"
-              value={ProductImageURL}
-              placeholder="Product Image URL"
-              handleChange={e => setProductImageURL(e.target.value)}
+              value={productThumbnail}
+              handleChange={e => setProductThumbnail(e.target.value)}
             />
 
             <FormInput
+              label="Price"
               type="number"
               min="0.00"
               max="10000.00"
               step="0.01"
-              name="productPrice"
               value={productPrice}
-              placeholder="Price"
               handleChange={e => setProductPrice(e.target.value)}
             />
 
+            <Button type="submit">
+              Add product
+            </Button>
 
           </form>
         </div>
       </Modal>
+
+      <div className="manageProducts">
+              <table border="0" cellPadding="0" cellSpacing="0">
+                <tbody>
+                  <tr>
+                    <th>
+                      <h1>
+                        Manage Products
+                      </h1>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table className="results" border="0" cellPadding="10" cellSpacing="0">
+                        <tbody>
+                          {products.map((product, index)=> {
+                            const {
+                              productName,
+                              productThumbnail,
+                              productPrice,
+                              documentID,
+                            } = product;
+                            
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  <img className="thumb" src={productThumbnail}></img>
+                                </td>
+                                <td>
+                                  {productName}
+                                </td>
+                                <td>
+                                  {productPrice} $
+                                </td>
+                                <td>
+                                  <Button onClick={()=> dispatch(deleteProductStart(documentID))}>
+                                    Delete
+                                  </Button>
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
 
     </div>
   );

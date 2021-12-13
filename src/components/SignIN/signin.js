@@ -26,7 +26,7 @@ const SignIn = props => {
           history.push('/');
         }
     
-      }, [currentUser]);
+      }, [history, currentUser]);
     
     const resetForm = () => {
         setEmail('');

@@ -1,9 +1,10 @@
 .footer {
+    display: flex;
     text-align: center;
     align-items: center;
     .wrap {
         max-width: 1450px;
-        padding: 20px 10px;
+        padding: 2rem 0rem;
         margin: 0 auto;
     }
 }

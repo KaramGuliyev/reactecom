@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './emailpasswordstyles.scss'
-import { withRouter,useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { resetPasswordStart, resetUserState } from "../../redux/User/user.actions";
 
 import AuthWrapper from '../AuthWrapper/authwrapper';
@@ -29,7 +29,7 @@ const EmailPassword = props => {
             history.push('/login')
 
         }
-    }, [resetPasswordSuccess])
+    }, [dispatch, history, resetPasswordSuccess])
 
     useEffect(() => {
         if (Array.isArray(userErr) && userErr.length > 0) {

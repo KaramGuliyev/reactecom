@@ -29,7 +29,7 @@ const Signup = props => {
       history.push('/');
     }
 
-  }, [currentUser]);
+  }, [history, currentUser]);
   
   useEffect(() => {
     if (Array.isArray(userErr) && userErr.length > 0) {
