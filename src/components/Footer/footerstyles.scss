@@ -1,7 +1,8 @@
 .footer {
-    display: flex;
+    display:flex;
     text-align: center;
     align-items: center;
+    z-index: 5;
     .wrap {
         max-width: 1450px;
         padding: 2rem 0rem;

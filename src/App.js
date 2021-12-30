@@ -24,6 +24,7 @@ import Login from './pages/Login/login';
 import Recovery from './pages/Recovery/recovery';
 import Registration from './pages/Registration/register';
 import Dashboard from './pages/Dashboard/dashboard';
+import Search from './pages/Search/search';
 
 
 const App = props => {
@@ -43,6 +44,13 @@ const App = props => {
                 <Homepage/>
               </HomepageLayout>
             )} />
+            <Route path="/search" render={()=> (
+              <MainLayout>
+                <Search />
+              </MainLayout>
+            )}>
+
+            </Route>
             <Route path="/registration" 
               render={() => (
               <MainLayout>
