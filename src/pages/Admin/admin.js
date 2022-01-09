@@ -6,6 +6,7 @@ import FormInput from '../../components/forms/FormInput/forminput';
 import Modal from '../../components/Modals/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductStart, deleteProductStart, fetchProductsStart } from './../../redux/Products/products.actions';
+import LoadMore from '../../components/LoadMore/loadmore';
 
 const mapState = ({ productsData }) => ({
   products: productsData.products
@@ -19,6 +20,8 @@ const Admin = props => {
   const [productName, setProductName] = useState('');
   const [productThumbnail, setProductThumbnail] = useState('');
   const [productPrice, setProductPrice] = useState(0);
+
+  const { data, queryDoc, isLastPage } = products;
 
   useEffect(() => {
     dispatch(
@@ -52,10 +55,23 @@ const Admin = props => {
         productThumbnail,
         productPrice,
       })
-    );
-    resetForm();
+      );
+      resetForm();
+      
+    };
+    
+    const handleLoadMore = () => {
+      dispatch(
+        fetchProductsStart({
+          startAfterDoc: queryDoc, 
+          persistProducts: data,
+        })
+      );
+    };
 
-  };
+    const configLoadMore = {
+      onLoadMoreEvt: handleLoadMore,
+    };
 
   return (
     <div className="admin">
@@ -136,7 +152,7 @@ const Admin = props => {
                     <td>
                       <table className="results" border="0" cellPadding="10" cellSpacing="0">
                         <tbody>
-                          {products.map((product, index)=> {
+                          {(Array.isArray(data) && data.length > 0) && data.map((product, index)=> {
                             const {
                               productName,
                               productThumbnail,
@@ -165,6 +181,26 @@ const Admin = props => {
                           })}
                         </tbody>
                       </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                          <table border ="0" cellPadding="10px" cellSpacing="10px">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  {!isLastPage &&(
+                                    <LoadMore {...configLoadMore}/>
+                                  )}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                     </td>
                   </tr>
                 </tbody>
