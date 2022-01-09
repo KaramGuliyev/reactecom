@@ -1,5 +1,5 @@
 import { React } from 'react';
-import ProductResults from '../../components/Products/productResults';
+import ProductResults from '../../components/ProductResults/productResults';
 
 const Search = ( { } ) => {
     return (
