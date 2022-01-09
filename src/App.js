@@ -25,7 +25,7 @@ import Recovery from './pages/Recovery/recovery';
 import Registration from './pages/Registration/register';
 import Dashboard from './pages/Dashboard/dashboard';
 import Search from './pages/Search/search';
-
+import ProductDetails from './pages/ProductDetails/productdetails';
 
 const App = props => {
   const dispatch = useDispatch();
@@ -56,6 +56,11 @@ const App = props => {
               </MainLayout>
             )} />
 
+            <Route path="/product/:productID" render={()=> (
+              <MainLayout>
+                <ProductDetails />
+              </MainLayout>
+            )} />
             
             <Route path="/registration" 
               render={() => (

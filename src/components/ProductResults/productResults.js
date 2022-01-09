@@ -81,9 +81,7 @@ const ProductResults = ({ }) => {
                     return <p>potato</p>;
 
                 const configProduct = {
-                    productThumbnail, 
-                    productName, 
-                    productPrice,
+                    ...product,
                 }
                 return (
                     <Product {...configProduct} />
