@@ -26,6 +26,7 @@ import Registration from './pages/Registration/register';
 import Dashboard from './pages/Dashboard/dashboard';
 import Search from './pages/Search/search';
 import ProductDetails from './pages/ProductDetails/productdetails';
+import Cart from './pages/Cart/cart';
 
 const App = props => {
   const dispatch = useDispatch();
@@ -59,6 +60,12 @@ const App = props => {
             <Route path="/product/:productID" render={()=> (
               <MainLayout>
                 <ProductDetails />
+              </MainLayout>
+            )} />
+            
+            <Route path="/cart" render={()=> (
+              <MainLayout>
+                <Cart />
               </MainLayout>
             )} />
             
