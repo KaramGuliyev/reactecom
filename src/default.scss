@@ -58,6 +58,9 @@ html {
     width: 100%;
     height: calc(100% - 4.5rem);
     margin: 0rem auto; 
+    .main{
+      max-width: 1450px;
+    }
   }
   
   .controlPanel {
