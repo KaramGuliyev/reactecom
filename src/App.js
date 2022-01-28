@@ -28,6 +28,7 @@ import Search from './pages/Search/search';
 import ProductDetails from './pages/ProductDetails/productdetails';
 import Cart from './pages/Cart/cart';
 import Payment from './pages/Payment/payment';
+import Order from './pages/Order/order';
 
 const App = props => {
   const dispatch = useDispatch();
@@ -103,6 +104,16 @@ const App = props => {
                 </DashboardLayout>
               </WithAuth>
             )} />
+
+              <Route path="/order/:orderID" render={() => (
+                <WithAuth>
+                  <DashboardLayout>
+                    <Order />
+                  </DashboardLayout>
+                </WithAuth>
+              )} />
+
+
             <Route path="/admin" 
               render={()=> (
               <WithAdminAuth>

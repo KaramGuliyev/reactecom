@@ -4,12 +4,14 @@ import Button from "../forms/Buttons/Buttons";
 import { CountryDropdown } from "react-country-region-selector";
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { apiInstance } from "../../utils/utils";
-import { selectCartTotal, selectCartItemsCount } from '../../redux/Cart/cart.selectors'
+import { selectCartTotal, selectCartItemsCount, selectCartItems } from '../../redux/Cart/cart.selectors'
 import { createStructuredSelector } from 'reselect';
 import { useSelector, useDispatch } from 'react-redux';
-import './paymentdetailsstyles.scss';
 import { clearCart } from '../../redux/Cart/cart.actions';
 import { useHistory } from 'react-router-dom';
+import { saveOrderHistory } from './../../redux/Orders/orders.actions';
+import './paymentdetailsstyles.scss';
+
 const initalAddressState = {
     city: '',
     country: '',
@@ -22,6 +24,7 @@ const initalAddressState = {
 const mapState = createStructuredSelector({
     total: selectCartTotal,
     itemCount: selectCartItemsCount,
+    cartItems: selectCartItems,
 });
 
 const PaymentDetails = () => {
@@ -29,7 +32,7 @@ const PaymentDetails = () => {
     const history = useHistory()
     const elements = useElements();
     const stripe = useStripe();
-    const {total, itemCount} = useSelector(mapState);
+    const {total, itemCount, cartItems} = useSelector(mapState);
     const [billingAddress, setBillingAddress] = useState({...initalAddressState});
     const [shippingAddress, setShippingAddress] = useState({...initalAddressState});
     const [recipientName, setRecipientName] = useState('');
@@ -37,7 +40,7 @@ const PaymentDetails = () => {
 
     useEffect(()=> {
         if(itemCount < 1) {
-            history.push('/')
+            history.push('/dashboard')
         }
     }, [itemCount])
     
@@ -96,20 +99,36 @@ const handleFormSubmit = async evt => {
                         ...billingAddress
                     }
                 }
-            }).then(({paymentMethod}) => {
+            }).then(({ paymentMethod }) => {
 
                 stripe.confirmCardPayment(clientSecret, 
                     {
                         payment_method: paymentMethod.id
-                    }).then(({paymentIntent}) => {
-                        dispatch(clearCart())
+                    }).then(({ paymentIntent }) => {
+                       
+                        const configOrder = {
+                            orderTotal: total,
+                            orderItems: cartItems.map(item => {
+                                const {
+                                    documentID, 
+                                    productThumbnail, 
+                                    productName, 
+                                    productPrice,
+                                    quantity,
+                                } = item;
+                                return {
+                                    documentID,
+                                    productThumbnail,
+                                    productName,
+                                    productPrice,
+                                    quantity,
+                                };
+                            })
+                        }
+                        dispatch (saveOrderHistory(configOrder))
                     })
-
             });
-
-
         });
-
     };
 
 const configCardElement = {
