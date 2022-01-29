@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import {getUserOrderHistory} from '../../redux/Orders/orders.actions'
-import OrderHistory from './../../components/orderHistory/orderhistory';
+import OrderHistory from './../../components/OrderHistory/orderhistory';
 import './dashboardstyles.scss'
 
 const mapState = ({ user, ordersData }) => ({
